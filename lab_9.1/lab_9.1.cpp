@@ -1,6 +1,4 @@
-﻿//#define _test_mode_
-
-#include <iostream>
+﻿#include <iostream>
 #include <iomanip>
 #include <Windows.h>
 
@@ -19,6 +17,7 @@ struct ScoresCount {
 
 ScoresCount getCountsScore(Student*, const int);
 int CountStudents(Student*, const int);
+void pause();
 
 int main()
 {
@@ -33,51 +32,98 @@ int main()
     "Комп’ютерні науки"
   };
 
-#ifndef _test_mode_
-  int N;
+  unsigned int N = 0;
+  Student* students = nullptr;
+  Student* temp = nullptr;
 
-  cout << "Введіть N: "; cin >> N;
-
-  Student* students = new Student[N];
-
-  Fill(students, N);
-#endif // !_test_mode_
-
-#ifdef _test_mode_
-  cout << "\n\t\t\t\tTEST MODE!!!\tTEST MODE!!!\tTEST MODE!!!\n\n";
-
-  const int N = 10;
-
-  Student students[N] = {
-    {"Moroz",     4, KN,  4, 4, 5},
+  Student forAutoFill[10] = {
+    {"Moroz",     1, KN,  4, 4, 5},
     {"Tkachuk",   4, INF, 4, 3, 4},
-    {"Petrenko",  4, ME,  5, 4, 2},
-    {"Koval",     4, KN,  3, 3, 3},
+    {"Petrenko",  1, ME,  5, 4, 2},
+    {"Koval",     3, KN,  3, 3, 3},
     {"Tkachenko", 4, FI,  5, 5, 2},
-    {"Rudenko",   4, INF, 3, 5, 5},
-    {"Boyko",     4, FI,  2, 4, 4},
+    {"Rudenko",   1, INF, 3, 5, 5},
+    {"Boyko",     5, FI,  2, 4, 4},
     {"Savchenko", 4, MF,  4, 3, 5},
-    {"Lysenko",   4, INF, 4, 5, 3},
-    {"Melnyk",    4, FI,  1, 3, 5},
+    {"Lysenko",   2, INF, 4, 5, 3},
+    {"Melnyk",    3, FI,  1, 3, 5},
   };
 
-#endif // _test_mode_
+  ScoresCount scores;
 
-  Print(students, N, specialtyList);
+  int menuItem;
+  do {
+    cout << endl << endl;
+    cout << "Виберіть дію:" << endl << endl;
+    cout << " [1] - введення даних з клавіатури" << endl;
+    cout << " [2] - автоматичне введення даних" << endl;
+    cout << " [3] - вивід даних на екран" << endl;
+    cout << " [4] - вивід кількості кожної оціноки з фізики" << endl;
+    cout << " [5] - вивід кількісті студентів в яких оцінка з фізики та математики 4 або 5" << endl;
 
-  ScoresCount scores = getCountsScore(students, N);
+    cout << endl << endl;
 
-  cout << "Кількість 3 з фізики: " << scores.three << endl;
-  cout << "Кількість 4 з фізики: " << scores.four  << endl;
-  cout << "Кількість 5 з фізики: " << scores.five  << endl;
+    cout << " [0] - вихід та завершення роботи програми" << endl << endl;
+    cout << "Введіть значення: "; cin >> menuItem;
+    cout << endl << endl << endl;
 
-  cout << endl;
+    switch (menuItem)
+    {
+    case 1:
+      cout << "Введіть N: "; cin >> N;
 
-  cout << "Кількість студентів в яких оцінка з фізики та математики 4 або 5: "
-    << CountStudents(students, N)
-    << endl;
+      delete[] students;
+      students = new Student[N];
+
+      Fill(students, N);
+      break;
+    case 2:
+      cout << "Введіть N(max 10): "; cin >> N;
+      if (N > 10)
+        N = 10;
+
+      temp = new Student[N];
+
+      for (unsigned i = 0; i < N; i++)
+        temp[i] = forAutoFill[i];
+
+      delete[] students;
+      students = temp;
+      break;
+    case 3:
+      Print(students, N, specialtyList);
+      pause();
+      break;
+    case 4:
+      scores = getCountsScore(students, N);
+
+      cout << "Кількість 3 з фізики: " << scores.three << endl;
+      cout << "Кількість 4 з фізики: " << scores.four << endl;
+      cout << "Кількість 5 з фізики: " << scores.five << endl;
+
+      pause();
+      break;
+    case 5:
+      cout << "Кількість студентів в яких оцінка з фізики та математики 4 або 5: "
+        << CountStudents(students, N);
+
+      pause();
+      break;
+    case 0:
+      break;
+    default:
+      cout << "Ви ввели помилкове значення! "
+        "Слід ввести число - номер вибраного пункту меню" << endl;
+    }
+  } while (menuItem != 0);
 
   return 0;
+}
+
+void pause() {
+  cout << endl << "Press Enter";
+
+  cin.get(); getchar();
 }
 
 ScoresCount getCountsScore(Student* students, const int N)
