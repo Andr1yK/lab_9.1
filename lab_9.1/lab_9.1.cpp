@@ -2,8 +2,8 @@
 #include <iomanip>
 #include <Windows.h>
 
-#include "extendFunctions.hpp"
-#include "Student.hpp"
+#include "extendFunctions.cpp"
+#include "Student.cpp"
 
 using namespace std;
 
@@ -21,8 +21,7 @@ void pause();
 
 int main()
 {
-  SetConsoleCP(1251);
-  SetConsoleOutputCP(1251);
+  setlocale(LC_CTYPE, "ukr");
 
   string specialtyList[] = {
     "Матем. та економіка",
