@@ -1,6 +1,5 @@
 ﻿#include <iostream>
 #include <iomanip>
-#include <Windows.h>
 
 #include "extendFunctions.cpp"
 #include "Student.cpp"
@@ -57,7 +56,7 @@ int main()
     cout << " [1] - введення даних з клавіатури" << endl;
     cout << " [2] - автоматичне введення даних" << endl;
     cout << " [3] - вивід даних на екран" << endl;
-    cout << " [4] - вивід кількості кожної оціноки з фізики" << endl;
+    cout << " [4] - вивід кількості кожної оцінки з фізики" << endl;
     cout << " [5] - вивід кількісті студентів в яких оцінка з фізики та математики 4 або 5" << endl;
 
     cout << endl << endl;
@@ -127,7 +126,7 @@ void pause() {
 
 ScoresCount getCountsScore(Student* students, const int N)
 {
-  ScoresCount newCount{};
+  ScoresCount newCount;
 
   for (int index = 0; index < N; index++) {
     switch (students[index].physics)
